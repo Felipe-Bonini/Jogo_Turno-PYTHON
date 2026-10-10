@@ -1,0 +1,81 @@
+/* ===== Visual do mapa e do combate (mesma identidade pixel art da introdução) ===== */
+:root{--hp:#d8604a;--eye:#e8b53a;--cd:#7fb7a4;--ink:#080d11}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;color:var(--cream);
+  background:radial-gradient(ellipse at top,#29443b 0%,#111d25 62%,#090f15 100%);font-family:'VT323',monospace;font-size:20px}
+[hidden]{display:none!important}
+#game{width:100%;max-width:720px}
+
+/* moldura igual à da introdução */
+#mapScreen,#combatScreen{position:relative;padding:clamp(14px,3vw,26px);background:var(--night);
+  border:4px solid var(--ink);outline:3px solid #71815a;box-shadow:0 0 0 7px #1c2d2b,0 18px 55px #0009}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+h1{margin:0;font-family:'Press Start 2P',monospace;font-size:14px;line-height:1.6;color:#f1edc6;text-shadow:3px 3px #406d47}
+.label{font-size:20px;color:var(--muted)}
+
+/* botões pixel */
+#mapScreen button,#combatScreen button{border:0;padding:12px 14px;background:var(--bright);color:#14241e;
+  box-shadow:0 4px 0 #47663c,0 7px 0 #0b1717;font-family:'Press Start 2P',monospace;font-size:10px;line-height:1.8;cursor:pointer;
+  transition:transform .08s,box-shadow .08s,filter .15s}
+#mapScreen button:hover:not(:disabled),#combatScreen button:hover:not(:disabled){filter:brightness(1.12)}
+#mapScreen button:active:not(:disabled),#combatScreen button:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #47663c,0 4px 0 #0b1717}
+#mapScreen button:disabled,#combatScreen button:disabled{background:#6b7a63;box-shadow:0 4px 0 #3e4838,0 7px 0 #0b1717;cursor:default}
+button:focus-visible{outline:3px solid #fff;outline-offset:4px}
+
+/* combate */
+.arena{background:linear-gradient(180deg,#14252c,#1c3932);border:3px solid #587756;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fighter{text-align:center}
+.sprite{font-size:3rem;line-height:1.2;transition:transform .12s}
+.sprite.hit{transform:scale(1.15) rotate(-6deg)}
+.bar{height:16px;background:#0a1518;border:3px solid var(--ink);margin:4px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;transition:width .15s}
+#eye{width:46px;height:28px;margin:6px auto 0;border-radius:50%;background:#f4edcf;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);transition:background .4s}
+#eye b{display:block;width:16px;height:16px;border-radius:50%;background:#3b2a1a;transition:all .4s}
+#eye.snake{background:var(--eye)}
+#eye.snake b{width:5px;height:22px;border-radius:50%;background:#111}
+#track{position:relative;height:300px;margin-top:14px;background:#101b24;border:3px solid #587756;overflow:hidden;display:grid;grid-template-columns:repeat(4,1fr)}
+.lane{border-right:2px dashed #ffffff1c;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-family:'Press Start 2P',monospace;font-size:14px;color:var(--muted);opacity:.5}
+.lane:last-of-type{border:0}
+#hitline{position:absolute;left:0;right:0;bottom:50px;height:4px;background:var(--bright);box-shadow:0 0 10px var(--bright)}
+.note{position:absolute;width:20%;height:34px;margin-left:2.5%;background:var(--hp);border:3px solid var(--ink);box-shadow:inset 0 -5px 0 #0003;
+  display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:14px;color:#f4edcf}
+.note.minion{background:#7a9a4a}
+#minionBox{margin-top:8px}
+.controls{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+#cdWrap{flex:1;min-width:120px}
+#log,#mapMsg{min-height:1.4em;margin-top:12px;font-size:22px;color:#e0e8d1}
+
+/* mapa */
+#hud{font-size:20px;color:var(--muted);text-align:right}
+#hud .inv{color:var(--eye)}
+#mapGrid{display:grid;grid-template-columns:repeat(15,1fr);gap:2px;background:var(--ink);border:3px solid #587756;padding:2px}
+.tile{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(14px,3.6vw,26px);background:#4b5a3f;box-shadow:inset 0 -3px 0 #0003}
+.tile.grass{background:#315b43;box-shadow:inset 0 -3px 0 #0004,inset 0 3px 0 #ffffff12}
+.tile.tree{background:#172b2a}
+.tile.house,.tile.temple{background:#2f3d3a}
+.tile.fog{background:#05090c;box-shadow:none}
+.tile.dim{filter:brightness(.45)}
+.tile.explored{opacity:.5}
+
+/* telas de fim (derrota/vitória) */
+#end,#mapEnd,#pauseBox{position:absolute;inset:0;background:#101b24ee;display:none;flex-direction:column;gap:22px;align-items:center;justify-content:center;
+  padding:20px;text-align:center;font-family:'Press Start 2P',monospace;font-size:14px;line-height:1.8;color:#f1edc6}
+#end.show,#mapEnd.show,#pauseBox.show{display:flex}
+
+@media (max-width:560px){body{padding:12px}.arena{gap:8px;padding:10px}.sprite{font-size:2.4rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* qualidade de vida: ajuda, mini-mapa, fim de jogo */
+#mapInfo{display:flex;gap:14px;align-items:flex-start;margin-top:12px}
+#mapInfo #mapMsg{margin-top:0}
+#minimap{flex:none;border:3px solid #587756;background:#05090c;image-rendering:pixelated;max-width:48%}
+#helpBtn{min-width:38px}
+#ajuda{position:absolute;inset:0;z-index:5;background:#101b24f7;padding:clamp(14px,3vw,26px);overflow:auto;display:flex;flex-direction:column;gap:12px}
+.endBtns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+#mapEndStats{font-family:'VT323',monospace;font-size:22px;color:var(--muted)}
+
+/* sprites pixel art */
+.tile{image-rendering:pixelated;background-repeat:no-repeat}
+.sprite img{width:96px;height:96px;image-rendering:pixelated;display:block;margin:0 auto}
+.sprite img.boss{width:128px;height:128px}

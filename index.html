@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PYTHON — RPG de Serpentes</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="intro.css">
+</head>
+<body>
+<div id="game">
+  <section id="abertura">
+    <div class="game-shell">
+    <div class="screen-frame">
+      <section id="title-screen" class="screen title-screen" aria-labelledby="game-title">
+        <div class="moon"></div>
+        <div class="ruins ruins-back"></div>
+        <div class="ruins ruins-front"></div>
+
+        <div class="title-content">
+          <p class="eyebrow">UM JOGO DE SOBREVIVÊNCIA</p>
+          <h1 id="game-title">PYTHON</h1>
+          <p class="subtitle">O MUNDO TOMADO PELA NATUREZA</p>
+          <button id="start-button" class="pixel-button">NOVA JORNADA</button>
+          <p class="small-hint">PRESSIONE PARA COMEÇAR</p>
+        </div>
+        <p class="version">PROTÓTIPO 0.1</p>
+      </section>
+
+      <section id="intro-screen" class="screen story-screen hidden" aria-labelledby="story-title">
+        <p class="eyebrow">PRÓLOGO · 01</p>
+        <h2 id="story-title">O mundo silenciou.</h2>
+        <div class="story-art" aria-hidden="true">
+          <div class="story-moon"></div>
+          <div class="story-city"></div>
+        </div>
+        <p class="story-text">As cidades foram engolidas pela vegetação. Entre prédios em ruínas, criaturas que antes se escondiam agora dominam o que restou do mundo.</p>
+        <p class="story-text">As serpentes se tornaram predadoras temidas. E você deveria ter sido mais uma vítima delas.</p>
+        <div class="story-actions">
+          <button id="back-button" class="pixel-button secondary-button">VOLTAR</button>
+          <button id="continue-button" class="pixel-button">CONTINUAR</button>
+        </div>
+      </section>
+
+      <section id="mission-screen" class="screen story-screen hidden" aria-labelledby="mission-title">
+        <p class="eyebrow">PRÓLOGO · 02</p>
+        <h2 id="mission-title">Meio humano. Meio serpente.</h2>
+        <p class="story-text">Depois de ser picado, algo mudou em você. Um dos seus olhos agora carrega a marca de uma serpente, e um poder estranho pulsa sob sua pele.</p>
+        <p class="story-text">Explore as ruínas, enfrente as serpentes e procure recursos nas casas abandonadas. No coração de um templo antigo, PYTHON espera.</p>
+        <div class="mission-note"><span class="note-icon">⚔</span><span>SUA MISSÃO: FIQUE MAIS FORTE E DERROTE PYTHON.</span></div>
+        <button id="finish-intro-button" class="pixel-button">ENTENDI · COMO JOGAR</button>
+      </section>
+
+      <section id="tutorial-1" class="screen story-screen hidden" aria-labelledby="tut1-title">
+        <p class="eyebrow">COMO JOGAR · 01</p>
+        <h2 id="tut1-title">Explore as ruínas.</h2>
+        <div class="keys">
+          <div class="key-row"><span class="caps"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>Andar pelo mapa.</span></div>
+        </div>
+        <p class="story-text">Ande contra o mato alto para cortá-lo com a espada e abrir caminho. Algumas moitas escondem serpentes: ao encontrar uma, começa um duelo.</p>
+        <p class="story-text">As casas abandonadas guardam serpentes fortes e um loot que aumenta sua força e recupera sua vida. O templo só abre depois que você saquear todas elas.</p>
+        <p class="story-text">Sua visão é limitada: o que você já explorou fica no mapa, mas escurecido. Cuidado com o veneno: ele inverte seus controles de movimento por um tempo.</p>
+        <div class="story-actions">
+          <button id="tut1-back" class="pixel-button secondary-button">VOLTAR</button>
+          <button id="tut1-next" class="pixel-button">CONTINUAR</button>
+        </div>
+      </section>
+
+      <section id="tutorial-2" class="screen story-screen hidden" aria-labelledby="tut2-title">
+        <p class="eyebrow">COMO JOGAR · 02</p>
+        <h2 id="tut2-title">Vença o duelo.</h2>
+        <div class="keys">
+          <div class="key-row"><span class="caps"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>ou as setas: defenda quando a nota cruzar a linha dourada.</span></div>
+          <div class="key-row"><span class="caps"><kbd>ESPAÇO</kbd></span><span>Atacar. Tem um tempo de recarga.</span></div>
+          <div class="key-row"><span class="caps"><kbd>Q</kbd></span><span>Liberar o poder da serpente, quando a barra estiver cheia.</span></div>
+          <div class="key-row"><span class="caps"><kbd>P</kbd></span><span>Pausar o duelo.</span></div>
+        </div>
+        <p class="story-text">Atenção: depois de 8 defesas seguidas sem atacar, a serpente quebra sua guarda e você toma dano. Defenda, mas não esqueça de atacar!</p>
+        <p class="story-text">Dizem que o chefe do templo sabe chamar reforços...</p>
+        <div class="story-actions">
+          <button id="tut2-back" class="pixel-button secondary-button">VOLTAR</button>
+          <button id="start-game-button" class="pixel-button">COMEÇAR O JOGO</button>
+        </div>
+      </section>
+    </div>
+    </div>
+  </section>
+
+  <section id="mapScreen" hidden>
+    <div class="top"><h1>Mundo</h1><div id="hud"></div><button id="helpBtn" title="Ajuda (H)">?</button><button class="somBtn" title="Som (M)"></button></div>
+    <div id="mapGrid"></div>
+    <div id="mapInfo"><canvas id="minimap" aria-label="Mini-mapa"></canvas><div id="mapMsg">Use W A S D para andar. Bata no mato alto para cortá-lo com a espada.</div></div>
+    <div id="ajuda" hidden>
+      <h1>Como jogar</h1>
+      <div class="keys">
+        <div class="key-row"><span class="caps"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>Andar. Ande contra o mato para cortá-lo.</span></div>
+        <div class="key-row"><span class="caps"><kbd>H</kbd></span><span>Abrir ou fechar esta ajuda.</span></div>
+        <div class="key-row"><span class="caps"><kbd>M</kbd></span><span>Ligar ou desligar o som.</span></div>
+      </div>
+      <p class="story-text">No duelo:</p>
+      <div class="keys">
+        <div class="key-row"><span class="caps"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>ou setas: defender quando a nota cruzar a linha.</span></div>
+        <div class="key-row"><span class="caps"><kbd>ESPAÇO</kbd></span><span>Atacar.</span></div>
+        <div class="key-row"><span class="caps"><kbd>Q</kbd></span><span>Poder da serpente (barra cheia).</span></div>
+        <div class="key-row"><span class="caps"><kbd>P</kbd></span><span>Pausar o duelo.</span></div>
+      </div>
+      <p class="story-text">Saqueie todas as casas para abrir o templo. 8 defesas seguidas sem atacar = dano garantido em você.</p>
+      <div><button id="helpClose">Fechar</button></div>
+    </div>
+    <div id="mapEnd"><div id="mapEndTxt"></div><div id="mapEndStats"></div><div class="endBtns"><button id="mapRestart">Jogar de novo</button><button id="mapTitle">Voltar ao título</button></div></div>
+  </section>
+
+  <section id="combatScreen" hidden>
+  <div class="top"><h1>Combate</h1><button class="somBtn" title="Som (M)"></button></div>
+
+  <div class="arena">
+    <div class="fighter">
+      <div class="sprite" id="pSprite"></div>
+      <div class="label">Você — vida</div>
+      <div class="bar"><i id="pHp" style="background:var(--hp)"></i></div>
+      <div class="label">Poder da serpente</div>
+      <div class="bar"><i id="ultBar" style="background:var(--eye);width:0"></i></div>
+      <div id="eye" title="Olho do protagonista"><b></b></div>
+    </div>
+    <div class="fighter">
+      <div class="sprite" id="eSprite"></div>
+      <div class="label" id="eName"></div>
+      <div class="bar"><i id="eHp" style="background:var(--hp)"></i></div>
+      <div class="label" id="streakTxt"></div>
+      <div class="label" id="status"></div>
+      <div id="minionBox" hidden><div class="label" id="mName"></div><div class="bar"><i id="mHp" style="background:var(--eye)"></i></div></div>
+    </div>
+  </div>
+
+  <div id="track">
+    <div class="lane">←</div><div class="lane">↑</div><div class="lane">↓</div><div class="lane">→</div>
+    <div id="hitline"></div>
+  </div>
+
+  <div class="controls">
+    <button id="atkBtn">Atacar (Espaço)</button>
+    <button id="ultBtn" disabled>Liberar poder (Q)</button>
+    <button id="pauseBtn">Pausar (P)</button>
+    <div id="cdWrap"><div class="bar"><i id="cdBar" style="background:var(--cd)"></i></div></div>
+  </div>
+  <div id="log">Defenda com as setas ou W A S D quando a nota cruzar a linha dourada.</div>
+
+  <div id="pauseBox"><div>PAUSADO</div><button id="resumeBtn">Continuar (P)</button></div>
+  <div id="end"><div id="endTxt"></div><button id="again">Continuar</button></div>
+  </section>
+</div>
+
+<script src="audio.js"></script>
+<script src="sprites.js"></script>
+<script src="combate.js"></script>
+<script src="mapa.js"></script>
+<script src="intro.js"></script>
+</body>
+</html>
